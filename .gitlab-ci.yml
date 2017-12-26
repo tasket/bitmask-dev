@@ -70,6 +70,7 @@ e2e_test_mail:
     - linux
 
 e2e_test_vpn:
+  # temporary fix for artful docker imgs breaking fw
   image: 0xacab.org:4567/leap/bitmask-dev:latest
   stage: e2e
   allow_failure: true
@@ -104,6 +105,7 @@ e2e_test_conditional_downloads:
     - linux
 
 functional_tests:
+  # temporary fix for artful docker imgs breaking fw
   image: 0xacab.org:4567/leap/bitmask-dev:latest
   stage: functional
   before_script:
