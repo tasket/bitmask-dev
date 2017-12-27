@@ -1,4 +1,5 @@
 FROM 0xacab.org:4567/leap/docker/ubuntu:zesty_amd64
+# Please trigger a build with zesty for me
 
 MAINTAINER LEAP Encryption Access Project <info@leap.se>
 LABEL Description="Image for building bitmask-dev based on Ubuntu 17:10" Vendor="LEAP" Version="1.0"
