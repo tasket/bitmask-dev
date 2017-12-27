@@ -65,6 +65,7 @@ sleep 5
 
 ip link show
 cat ~/.config/leap/bitmaskd.log
+cat /etc/resolv.conf
 
 # TEST that we're going through the provider's VPN
 tests/e2e/check_ip vpn_on
