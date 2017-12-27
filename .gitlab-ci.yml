@@ -155,7 +155,8 @@ build_ui:
     - ui/node_modules/
 
 build_docker_image:
-  image: 0xacab.org:4567/leap/bitmask-dev:latest
+  #image: 0xacab.org:4567/leap/bitmask-dev:latest
+  image: 0xacab.org:4567/leap/docker/ubuntu:zesty_amd64
   stage: test
   services:
     - docker:dind
