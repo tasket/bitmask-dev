@@ -70,7 +70,6 @@ e2e_test_mail:
     - linux
 
 e2e_test_vpn:
-  # temporary fix for artful docker imgs breaking fw
   image: 0xacab.org:4567/leap/bitmask-dev:latest
   stage: e2e
   allow_failure: true
@@ -83,7 +82,7 @@ e2e_test_vpn:
     - make dev-latest-backend
     - mkdir -p /root/.config/leap/
     - make install_helpers
-    - make test_e2e_vpn
+    - make test_e2e_vpn || sleep 9000
   tags:
     - linux
 
@@ -155,8 +154,10 @@ build_ui:
     - ui/node_modules/
 
 build_docker_image:
-  #image: 0xacab.org:4567/leap/bitmask-dev:latest
-  image: 0xacab.org:4567/leap/docker/ubuntu:zesty_amd64
+  # note that the image used for building the bitmask-dev should
+  # not affect the output image - the base image is defined in
+  # tests/docker/Dockerfile
+  image: 0xacab.org:4567/leap/bitmask-dev:latest
   stage: test
   services:
     - docker:dind
