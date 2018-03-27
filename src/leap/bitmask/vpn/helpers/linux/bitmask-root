@@ -158,11 +158,12 @@ QUBES_PROXY = os.path.exists("/var/run/qubes/this-is-proxyvm")
 if os.path.isdir("/etc/qubes"):
     QUBES_CFG = "/rw/config/"
     QUBES_IPHOOK = QUBES_CFG + "qubes-ip-change-hook"
-    QUBES_FW_SCRIPT = QUBES_CFG + "qubes-firewall-user-script"
     if subprocess.call([IPTABLES, "--list", "QBS-FORWARD"]) == 0:
         QUBES_VER = 4
+        QUBES_FW_SCRIPT = QUBES_CFG + "/qubes-firewall.d/90_tunnel-restrict"
     else:
         QUBES_VER = 3
+        QUBES_FW_SCRIPT = QUBES_CFG + "qubes-firewall-user-script"
 else:
     # not a Qubes system
     QUBES_VER = 0
@@ -741,6 +742,9 @@ def firewall_start(args):
     # Must stay on 'top' of chain!
     if QUBES_PROXY and QUBES_VER >= 3 and run("grep", \
         "installed\ by\ " + SCRIPT, QUBES_FW_SCRIPT, exitcode=True) != 0:
+        if QUBES_VER == 4 and \
+            not os.path.isdir(os.path.dirname(QUBES_FW_SCRIPT)):
+            os.makedirs(os.path.dirname(QUBES_FW_SCRIPT))
         with open(QUBES_FW_SCRIPT, mode="w") as qfile:
             qfile.write("#!/bin/sh\n")
             qfile.write("# Anti-leak rules installed by " + SCRIPT + " " \
@@ -752,8 +756,6 @@ def firewall_start(args):
             qfile.write("iptables --insert INPUT -i tun+ -j DROP\n")
             qfile.write("ip6tables --insert INPUT -i tun+ -j DROP\n")
         os.chmod(QUBES_FW_SCRIPT, stat.S_IRWXU)
-        if not os.path.exists(QUBES_IPHOOK):
-            os.symlink(QUBES_FW_SCRIPT, QUBES_IPHOOK)
         if QUBES_VER == 4:
             run(QUBES_FW_SCRIPT)
         elif QUBES_VER == 3:
