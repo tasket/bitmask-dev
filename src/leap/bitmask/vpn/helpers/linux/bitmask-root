@@ -160,7 +160,7 @@ if os.path.isdir("/etc/qubes"):
     QUBES_IPHOOK = QUBES_CFG + "qubes-ip-change-hook"
     if subprocess.call([IPTABLES, "--list", "QBS-FORWARD"]) == 0:
         QUBES_VER = 4
-        QUBES_FW_SCRIPT = QUBES_CFG + "/qubes-firewall.d/90_tunnel-restrict"
+        QUBES_FW_SCRIPT = QUBES_CFG + "qubes-firewall.d/90_tunnel-restrict"
     else:
         QUBES_VER = 3
         QUBES_FW_SCRIPT = QUBES_CFG + "qubes-firewall-user-script"
