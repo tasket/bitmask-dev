@@ -745,7 +745,8 @@ def firewall_start(args):
         if QUBES_VER == 4 and \
             not os.path.isdir(os.path.dirname(QUBES_FW_SCRIPT)):
             os.makedirs(os.path.dirname(QUBES_FW_SCRIPT))
-        if QUBES_VER == 3 and os.path.exists(QUBES_FW_SCRIPT):
+        if QUBES_VER == 3 and os.path.exists(QUBES_FW_SCRIPT) \
+            and not os.path.exists(QUBES_FW_SCRIPT + ".bak"):
             os.rename(QUBES_FW_SCRIPT, QUBES_FW_SCRIPT + ".bak")
         with open(QUBES_FW_SCRIPT, mode="w") as qfile:
             qfile.write("#!/bin/sh\n")
